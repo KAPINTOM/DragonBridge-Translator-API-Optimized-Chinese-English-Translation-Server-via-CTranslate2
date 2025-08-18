@@ -27,6 +27,28 @@ This Flask-based web server translates Chinese text to English using Helsinki-NL
 The system delivers enterprise-grade translation capabilities with measured throughput of 500-1000 characters/second on standard CPU infrastructure, suitable for integration into localization workflows, content management systems, and multilingual applications requiring efficient Chinese-to-English translation.
 
 ---
+### **Instalation process**
+**Step 1: Clone repository**
+
+```bash
+git clone https://github.com/KAPINTOM/DragonBridge-Translator-API-Optimized-Chinese-English-Translation-Server-via-CTranslate2
+
+cd DragonBridge-Translator-API-Optimized-Chinese-English-Translation-Server-via-CTranslate2
+```
+
+**Step 2: Instalation of Python PIP dependencies**
+
+```bash
+pip install flask flask-cors ctranslate2 transformers torch --extra-index-url https://download.pytorch.org/whl/cpu
+```
+
+**Step 3: Server initialization**
+
+```bash
+py server.py
+```
+
+---
 
 ### **Tampermonkey Script to translate full BiliBili live page using the local server implementation**
 
