@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese-English Translator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.93);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .chinese-input {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            font-size: 1.3rem;
+        }
+        
+        .translate-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #e44d26, #f16529);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(228, 77, 38, 0.4);
+        }
+        
+        .translate-btn:hover {
+            background: linear-gradient(to right, #f16529, #e44d26);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(228, 77, 38, 0.5);
+        }
+        
+        .translate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .stats {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #e9ecef;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .instructions {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 25px 0;
+            font-size: 0.95rem;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #0d47a1;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.9rem;
+        }
+        
+        .examples {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .example-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .example-btn:hover {
+            background-color: #dee2e6;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Chinese-English Translator</h1>
+            <p class="subtitle">Real-time translation using artificial intelligence</p>
+        </header>
+        
+        <div class="content">
+            <div class="input-group">
+                <label for="chinese-text">Chinese Text:</label>
+                <textarea id="chinese-text" class="chinese-input" placeholder="Type or paste Chinese text here..."></textarea>
+            </div>
+            
+            <div class="examples">
+                <div class="example-btn" onclick="loadExample('你好，世界！')">你好，世界！</div>
+                <div class="example-btn" onclick="loadExample('你叫什么名字？')">你叫什么名字？</div>
+                <div class="example-btn" onclick="loadExample('今天的天气怎么样？')">今天的天气怎么样？</div>
+                <div class="example-btn" onclick="loadExample('人工智能是未来的技术')">人工智能是未来的技术</div>
+            </div>
+            
+            <button id="translate-btn" class="translate-btn">Translate to English</button>
+            
+            <div class="input-group">
+                <label for="english-text">English Translation:</label>
+                <textarea id="english-text" placeholder="The translation will appear here..." readonly></textarea>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instructions:</h3>
+                <ul>
+                    <li>Type or paste Chinese text in the upper box</li>
+                    <li>Click the "Translate to English" button</li>
+                    <li>The translation will appear in the lower box</li>
+                    <li>Try the provided examples to get started</li>
+                    <li>Make sure the translation server is running at <code>http://localhost:5000</code></li>
+                </ul>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="char-count">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="translation-time">0ms</div>
+                    <div class="stat-label">Translation Time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="status">Ready</div>
+                    <div class="stat-label">Status</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Translator based on Helsinki-NLP/opus-mt-zh-en model | Local server: http://localhost:5000</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chineseText = document.getElementById('chinese-text');
+            const englishText = document.getElementById('english-text');
+            const translateBtn = document.getElementById('translate-btn');
+            const charCount = document.getElementById('char-count');
+            const translationTime = document.getElementById('translation-time');
+            const statusEl = document.getElementById('status');
+            
+            // Update character count
+            chineseText.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
+            
+            // Handle translation
+            translateBtn.addEventListener('click', function() {
+                const text = chineseText.value.trim();
+                
+                if (!text) {
+                    englishText.value = "Please enter some Chinese text to translate.";
+                    return;
+                }
+                
+                // Update status
+                statusEl.textContent = "Translating...";
+                englishText.value = "";
+                translateBtn.disabled = true;
+                translateBtn.textContent = "Translating...";
+                
+                const startTime = new Date().getTime();
+                
+                // Send request to server
+                fetch('http://localhost:5000/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: text })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Server response error');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const endTime = new Date().getTime();
+                    const duration = endTime - startTime;
+                    
+                    if (data.error) {
+                        englishText.value = "Error: " + data.error;
+                    } else {
+                        englishText.value = data.translated_text;
+                    }
+                    
+                    translationTime.textContent = `${duration}ms`;
+                    statusEl.textContent = "Translation completed";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    englishText.value = "Error connecting to the server. Make sure the server is running at http://localhost:5000";
+                    statusEl.textContent = "Error";
+                })
+                .finally(() => {
+                    translateBtn.disabled = false;
+                    translateBtn.textContent = "Translate to English";
+                });
+            });
+            
+            // Allow Ctrl+Enter to translate
+            chineseText.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    translateBtn.click();
+                }
+            });
+        });
+        
+        function loadExample(text) {
+            document.getElementById('chinese-text').value = text;
+            document.getElementById('char-count').textContent = text.length;
+        }
+    </script>
+</body>
+</html>
